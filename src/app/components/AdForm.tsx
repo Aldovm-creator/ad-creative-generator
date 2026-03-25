@@ -1,9 +1,22 @@
 'use client'
 
+export const LEAD_MAGNET_TYPES = [
+  'Ebook / Guía',
+  'Webinar',
+  'Checklist',
+  'White Paper',
+  'Template / Plantilla',
+  'Diagnóstico / Reporte',
+  'Video / Mini curso',
+] as const
+
+export type LeadMagnetType = typeof LEAD_MAGNET_TYPES[number]
+
 export interface FormInput {
   brand: string
   audience: string
   objetivo: string
+  leadMagnetType: LeadMagnetType
   primaryColor: string
   secondaryColor: string
 }
@@ -107,6 +120,22 @@ export default function AdForm({ data, onChange, onGenerate, loading }: Props) {
           style={{ ...inputStyle, resize: 'none', lineHeight: 1.5 }}
           placeholder="Ej: Descargar guía gratuita '10 estrategias para triplicar ventas'"
         />
+      </div>
+
+      {/* Tipo de lead magnet */}
+      <div>
+        <label style={labelStyle}>
+          Tipo de lead magnet <span style={{ color: '#ef4444' }}>*</span>
+        </label>
+        <select
+          value={data.leadMagnetType}
+          onChange={(e) => update('leadMagnetType', e.target.value)}
+          style={{ ...inputStyle, cursor: 'pointer', appearance: 'none', backgroundImage: `url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%236b7280' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")`, backgroundRepeat: 'no-repeat', backgroundPosition: `right 12px center`, paddingRight: 32 }}
+        >
+          {LEAD_MAGNET_TYPES.map((t) => (
+            <option key={t} value={t}>{t}</option>
+          ))}
+        </select>
       </div>
 
       <div style={{ height: 1, background: '#f3f4f6' }} />

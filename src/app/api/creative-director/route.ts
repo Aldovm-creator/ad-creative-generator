@@ -42,6 +42,7 @@ interface RequestBody {
   brand: string
   audience: string
   objetivo: string
+  leadMagnetType: string
   primaryColor: string
   secondaryColor: string
 }
@@ -68,7 +69,7 @@ export async function POST(request: NextRequest) {
     return Response.json({ success: false, error: 'JSON inválido en el cuerpo.' }, { status: 400 })
   }
 
-  const { brand, audience, objetivo, primaryColor, secondaryColor } = body
+  const { brand, audience, objetivo, leadMagnetType, primaryColor, secondaryColor } = body
 
   const missing = ['brand', 'audience', 'objetivo', 'primaryColor', 'secondaryColor'].filter(
     (k) => !body[k as keyof RequestBody]?.trim()
@@ -86,8 +87,17 @@ BRIEF:
 - Marca: ${brand}
 - Audiencia objetivo: ${audience}
 - Objetivo de conversión: ${objetivo}
+- Tipo de lead magnet: ${leadMagnetType || 'Ebook / Guía'}
 - Color principal del anuncio: ${primaryColor}
 - Color secundario del anuncio: ${secondaryColor}
+
+IMPORTANTE SOBRE EL CTA:
+Adapta el CTA al tipo de lead magnet:
+- Ebook/Guía/White Paper/Checklist → "Descargar gratis", "Obtener guía", etc.
+- Webinar → "Regístrate gratis", "Reserva tu lugar", etc.
+- Template/Plantilla → "Usar plantilla", "Obtener template", etc.
+- Diagnóstico/Reporte → "Ver mi diagnóstico", "Obtener reporte", etc.
+- Video/Mini curso → "Ver ahora", "Acceder al curso", etc.
 
 LAYOUTS A EVALUAR:
 ${LAYOUTS.map((l) => `${l.id}. ${l.nombre}: ${l.descripcion}`).join('\n')}

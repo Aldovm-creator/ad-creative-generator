@@ -54,6 +54,7 @@ export async function POST(request: NextRequest) {
     cta,
     primaryColor,
     secondaryColor,
+    leadMagnetType,
     variaciones,
   } = body as Record<string, unknown>
 
@@ -107,6 +108,7 @@ export async function POST(request: NextRequest) {
     cta: (cta as string).trim(),
     primaryColor: primaryColor as string,
     secondaryColor: secondaryColor as string,
+    leadMagnetType: (leadMagnetType as string) || 'Ebook / Guía',
   }
 
   return Response.json({

@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import AdForm, { FormInput } from './components/AdForm'
+import AdForm, { FormInput, LeadMagnetType } from './components/AdForm'
 import AdVariation from './components/AdVariation'
 
 export interface AdData {
@@ -10,6 +10,7 @@ export interface AdData {
   cta: string
   primaryColor: string
   secondaryColor: string
+  leadMagnetType: LeadMagnetType
 }
 
 interface VariationDecision {
@@ -27,6 +28,7 @@ const DEFAULT_FORM: FormInput = {
   brand: '',
   audience: '',
   objetivo: '',
+  leadMagnetType: 'Ebook / Guía',
   primaryColor: '#6366f1',
   secondaryColor: '#f59e0b',
 }
@@ -66,6 +68,7 @@ export default function Home() {
           cta,
           primaryColor: formInput.primaryColor,
           secondaryColor: formInput.secondaryColor,
+          leadMagnetType: formInput.leadMagnetType,
         },
         variaciones,
       })
@@ -160,7 +163,7 @@ export default function Home() {
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
                 {VARIANTS.map((v) => (
-                  <AdVariation key={v} variant={v} data={{ headline: '', subheadline: '', cta: '', primaryColor: '#6366f1', secondaryColor: '#f59e0b' }} skeleton />
+                  <AdVariation key={v} variant={v} data={{ headline: '', subheadline: '', cta: '', primaryColor: '#6366f1', secondaryColor: '#f59e0b', leadMagnetType: 'Ebook / Guía' }} skeleton />
                 ))}
               </div>
             </>
