@@ -366,7 +366,8 @@ function AdCanvas({ variant, data, size: S }: CP) {
           <div style={{ position: 'relative', zIndex: 1, padding: `${f(20)}px ${f(22)}px`, maxWidth: '58%' }}>
             <Badge text="Edición limitada" bg={rgba(sc, 0.15)} color={sc} border={`1px solid ${rgba(sc, 0.3)}`} fs={f(8)} />
             <h2 style={{
-              fontSize: f(34), fontWeight: 900, lineHeight: 1.1,
+              fontSize: headline.split(' ').length > 4 ? f(26) : f(34),
+              fontWeight: 900, lineHeight: 1.1,
               margin: `${f(12)}px 0 ${f(10)}px`, letterSpacing: '-1.2px',
               textShadow: '0 2px 12px rgba(0,0,0,0.3)',
             }}>
@@ -376,17 +377,17 @@ function AdCanvas({ variant, data, size: S }: CP) {
           </div>
 
           {/* Bottom light zone content */}
-          <div style={{ position: 'absolute', bottom: f(18), left: f(22), zIndex: 1, maxWidth: '48%' }}>
+          <div style={{ position: 'absolute', bottom: f(20), left: f(22), zIndex: 2, maxWidth: '48%' }}>
             <p style={{ color: '#475569', fontSize: f(11), lineHeight: 1.6, margin: `0 0 ${f(16)}px`, fontWeight: 500 }}>{subheadline}</p>
             <div style={ctaStyle(`linear-gradient(135deg, ${pc}, ${dk1})`, tP, pc)}>{cta}</div>
           </div>
 
-          {/* Mockup — top right, no rotation, clear of text */}
+          {/* Mockup — top right, behind text */}
           <div style={{
             position: 'absolute',
             right: f(8), top: f(16),
             filter: `drop-shadow(-6px 10px 20px rgba(0,0,0,0.4)) drop-shadow(-3px 20px 40px rgba(0,0,0,0.2))`,
-            zIndex: 3,
+            zIndex: 1,
           }}>
             <Ebook pc={pc} sc={sc} w={Math.round(ew * 0.9)} id="v3" title={headline} />
           </div>
