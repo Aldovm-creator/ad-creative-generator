@@ -34,9 +34,9 @@ function Ebook({ pc, sc, w = 100, id = 'e', title = '', brand = '' }: { pc: stri
   const cw = w - 12, ch = h - 14, sp = Math.round(w * 0.11)
   const tOnPc = isLight(pc) ? '#0e0e0e' : '#ffffff'
   const cx = sp + 7, cxW = cw - sp - 16
-  const tFs = Math.max(5, Math.round(w * 0.072))
-  const labFs = Math.max(3.5, Math.round(w * 0.04))
-  const brFs = Math.max(3.5, Math.round(w * 0.042))
+  const tFs = Math.max(5.5, Math.round(w * 0.082))
+  const labFs = Math.max(4, Math.round(w * 0.046))
+  const brFs = Math.max(4, Math.round(w * 0.05))
   const maxCh = Math.max(8, Math.round(cxW / (tFs * 0.52)))
   const displayTitle = title || 'Guía Profesional'
   const displayBrand = brand || 'Tu Marca'
@@ -117,9 +117,11 @@ function Ebook({ pc, sc, w = 100, id = 'e', title = '', brand = '' }: { pc: stri
         {/* Accent bar under title */}
         <rect x={cx} y={Math.round(ch*0.42)} width={Math.round(cxW*0.28)} height={Math.max(1.5,Math.round(w*0.018))} rx="1" fill={sc} />
 
-        {/* Description placeholder lines */}
-        <rect x={cx} y={Math.round(ch*0.47)} width={Math.round(cxW*0.85)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.3" />
-        <rect x={cx} y={Math.round(ch*0.47)+Math.round(w*0.035)} width={Math.round(cxW*0.6)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.2" />
+        {/* Description placeholder lines — simulated content */}
+        <rect x={cx} y={Math.round(ch*0.47)} width={Math.round(cxW*0.9)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.3" />
+        <rect x={cx} y={Math.round(ch*0.47)+Math.round(w*0.033)} width={Math.round(cxW*0.7)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.22" />
+        <rect x={cx} y={Math.round(ch*0.47)+Math.round(w*0.066)} width={Math.round(cxW*0.8)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.15" />
+        <rect x={cx} y={Math.round(ch*0.47)+Math.round(w*0.099)} width={Math.round(cxW*0.5)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.1" />
 
         {/* Abstract graphic */}
         <circle cx={Math.round(cw*0.52)} cy={Math.round(ch*0.68)} r={Math.round(w*0.13)} fill={pc} opacity="0.06" />
@@ -243,18 +245,19 @@ function AdCanvas({ variant, data, size: S }: CP) {
           <div style={{ position: 'absolute', top: '20%', right: '15%', width: f(120), height: f(80), background: rgba(pc, 0.15), filter: 'blur(40px)', borderRadius: '50%' }} />
 
           {/* Left content */}
-          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(28)}px ${f(24)}px`, maxWidth: '60%' }}>
+          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(30)}px ${f(24)}px`, maxWidth: '58%', gap: f(16) }}>
             <Badge text="100% gratuito" bg={rgba(sc, 0.15)} color={sc} border={`1px solid ${rgba(sc, 0.25)}`} fs={f(9)} />
-            <h2 style={{
-              fontSize: f(44), fontWeight: 900, lineHeight: 0.95,
-              margin: `${f(16)}px 0 ${f(12)}px`, letterSpacing: '-1.5px',
-              textShadow: `0 2px 20px rgba(0,0,0,0.4)`,
-            }}>
-              <HL text={headline} color={sc} baseColor="#ffffff" />
-            </h2>
-            {/* Underline accent */}
-            <div style={{ width: f(44), height: 3, background: `linear-gradient(90deg, ${pc}, ${sc})`, borderRadius: 2, marginBottom: f(12) }} />
-            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: f(12), lineHeight: 1.6, margin: `0 0 ${f(18)}px` }}>{subheadline}</p>
+            <div>
+              <h2 style={{
+                fontSize: f(40), fontWeight: 900, lineHeight: 1.08,
+                margin: `0 0 ${f(10)}px`, letterSpacing: '-1.2px',
+                textShadow: `0 2px 20px rgba(0,0,0,0.4)`,
+              }}>
+                <HL text={headline} color={sc} baseColor="#ffffff" />
+              </h2>
+              <div style={{ width: f(44), height: 3, background: `linear-gradient(90deg, ${pc}, ${sc})`, borderRadius: 2 }} />
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.65)', fontSize: f(12), lineHeight: 1.65, margin: 0 }}>{subheadline}</p>
             <div style={ctaStyle(`linear-gradient(135deg, ${sc}, ${darken(sc, 35)})`, tS, sc)}>{cta}</div>
           </div>
 
@@ -298,18 +301,18 @@ function AdCanvas({ variant, data, size: S }: CP) {
           </svg>
 
           {/* Content */}
-          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(28)}px ${f(26)}px` }}>
+          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(30)}px ${f(26)}px`, gap: f(14) }}>
             <Badge text="Descarga rápida" bg={rgba(pc, 0.12)} color={pc} border={`1px solid ${rgba(pc, 0.2)}`} fs={f(9)} />
-            <h2 style={{
-              fontSize: f(48), fontWeight: 900, lineHeight: 0.93,
-              margin: `${f(16)}px 0 ${f(10)}px`, letterSpacing: '-2px',
-              maxWidth: '58%',
-            }}>
-              <HL text={headline} color={pc} baseColor="#ffffff" />
-            </h2>
-            {/* Color underline */}
-            <div style={{ width: f(50), height: 3, background: pc, borderRadius: 2, marginBottom: f(10), boxShadow: `0 0 12px ${rgba(pc, 0.5)}` }} />
-            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: f(12), lineHeight: 1.55, margin: `0 0 ${f(18)}px`, maxWidth: '55%' }}>{subheadline}</p>
+            <div style={{ maxWidth: '56%' }}>
+              <h2 style={{
+                fontSize: f(42), fontWeight: 900, lineHeight: 1.08,
+                margin: `0 0 ${f(10)}px`, letterSpacing: '-1.5px',
+              }}>
+                <HL text={headline} color={pc} baseColor="#ffffff" />
+              </h2>
+              <div style={{ width: f(50), height: 3, background: pc, borderRadius: 2, boxShadow: `0 0 12px ${rgba(pc, 0.5)}` }} />
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: f(12), lineHeight: 1.65, margin: 0, maxWidth: '55%' }}>{subheadline}</p>
             <div style={ctaStyle(`linear-gradient(135deg, ${lt1}, ${pc}, ${dk1})`, tP, pc)}>{cta}</div>
           </div>
 
@@ -360,11 +363,11 @@ function AdCanvas({ variant, data, size: S }: CP) {
           <div style={{ position: 'absolute', inset: 0, background: `linear-gradient(155deg, transparent 48%, ${rgba(pc, 0.3)} 49%, ${rgba(pc, 0.3)} 50%, transparent 51%)` }} />
 
           {/* Content — top dark zone */}
-          <div style={{ position: 'relative', zIndex: 1, padding: `${f(24)}px ${f(22)}px`, maxWidth: '65%' }}>
+          <div style={{ position: 'relative', zIndex: 1, padding: `${f(20)}px ${f(22)}px`, maxWidth: '58%' }}>
             <Badge text="Edición limitada" bg={rgba(sc, 0.15)} color={sc} border={`1px solid ${rgba(sc, 0.3)}`} fs={f(8)} />
             <h2 style={{
-              fontSize: f(42), fontWeight: 900, lineHeight: 0.95,
-              margin: `${f(14)}px 0 ${f(10)}px`, letterSpacing: '-1.5px',
+              fontSize: f(34), fontWeight: 900, lineHeight: 1.1,
+              margin: `${f(10)}px 0 ${f(8)}px`, letterSpacing: '-1.2px',
               textShadow: '0 2px 12px rgba(0,0,0,0.3)',
             }}>
               <HL text={headline} color={sc} baseColor="#fff" />
@@ -373,19 +376,19 @@ function AdCanvas({ variant, data, size: S }: CP) {
           </div>
 
           {/* Bottom light zone content */}
-          <div style={{ position: 'absolute', bottom: f(20), left: f(22), zIndex: 1, maxWidth: '55%' }}>
-            <p style={{ color: '#475569', fontSize: f(12), lineHeight: 1.55, margin: `0 0 ${f(14)}px`, fontWeight: 500 }}>{subheadline}</p>
+          <div style={{ position: 'absolute', bottom: f(22), left: f(22), zIndex: 1, maxWidth: '52%' }}>
+            <p style={{ color: '#475569', fontSize: f(11), lineHeight: 1.6, margin: `0 0 ${f(16)}px`, fontWeight: 500 }}>{subheadline}</p>
             <div style={ctaStyle(`linear-gradient(135deg, ${pc}, ${dk1})`, tP, pc)}>{cta}</div>
           </div>
 
           {/* Mockup at intersection — bridging both zones */}
           <div style={{
             position: 'absolute',
-            right: f(12), top: '48%', transform: 'translateY(-50%) rotate(-3deg)',
+            right: f(10), top: '50%', transform: 'translateY(-50%) rotate(-3deg)',
             filter: `drop-shadow(-6px 10px 20px rgba(0,0,0,0.4)) drop-shadow(-3px 20px 40px rgba(0,0,0,0.2))`,
             zIndex: 3,
           }}>
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.15)} id="v3" title={headline} />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.1)} id="v3" title={headline} />
           </div>
 
           {/* Geometric — bottom right */}
@@ -431,40 +434,41 @@ function AdCanvas({ variant, data, size: S }: CP) {
           <div style={{ position: 'absolute', bottom: f(16), left: f(16), width: 1.5, height: f(24), background: rgba(pc, 0.2) }} />
 
           {/* Content */}
-          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(24)}px ${f(22)}px ${f(24)}px ${f(18)}px` }}>
-            <div style={{ maxWidth: '62%' }}>
+          <div style={{ position: 'relative', zIndex: 1, height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: `${f(28)}px ${f(22)}px ${f(28)}px ${f(18)}px` }}>
+            <div style={{ maxWidth: '60%', display: 'flex', flexDirection: 'column', gap: f(14) }}>
               {/* Pill */}
               <div style={{
                 display: 'inline-block', fontSize: f(8), fontWeight: 800,
                 color: pc, background: rgba(pc, 0.08),
                 padding: `${f(3)}px ${f(10)}px`, borderRadius: 100,
                 letterSpacing: '0.1em', textTransform: 'uppercase',
-                border: `1px solid ${rgba(pc, 0.1)}`, marginBottom: f(14),
+                border: `1px solid ${rgba(pc, 0.1)}`, alignSelf: 'flex-start',
               }}>Guía gratuita</div>
 
-              <h2 style={{
-                fontSize: f(52), fontWeight: 900, lineHeight: 0.9,
-                margin: `0 0 ${f(8)}px`, letterSpacing: '-2.5px',
-                color: '#0a0a0a',
-              }}>
-                {(() => {
-                  const w = headline.split(' ')
-                  const n = w.length <= 3 ? 1 : 2
-                  return <>
-                    {w.slice(0, n).join(' ')}
-                    <span style={{ color: pc }}>{' '}{w.slice(n).join(' ')}</span>
-                  </>
-                })()}
-              </h2>
-
-              {/* Stacked accent lines */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 2.5, marginBottom: f(10) }}>
-                <div style={{ width: f(40), height: 2.5, background: pc, borderRadius: 2 }} />
-                <div style={{ width: f(26), height: 2, background: rgba(pc, 0.35), borderRadius: 2 }} />
-                <div style={{ width: f(14), height: 1.5, background: rgba(pc, 0.12), borderRadius: 2 }} />
+              <div>
+                <h2 style={{
+                  fontSize: f(44), fontWeight: 900, lineHeight: 1.05,
+                  margin: `0 0 ${f(10)}px`, letterSpacing: '-2px',
+                  color: '#0a0a0a',
+                }}>
+                  {(() => {
+                    const w = headline.split(' ')
+                    const n = w.length <= 3 ? 1 : 2
+                    return <>
+                      {w.slice(0, n).join(' ')}
+                      <span style={{ color: pc }}>{' '}{w.slice(n).join(' ')}</span>
+                    </>
+                  })()}
+                </h2>
+                {/* Stacked accent lines */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 2.5 }}>
+                  <div style={{ width: f(40), height: 2.5, background: pc, borderRadius: 2 }} />
+                  <div style={{ width: f(26), height: 2, background: rgba(pc, 0.35), borderRadius: 2 }} />
+                  <div style={{ width: f(14), height: 1.5, background: rgba(pc, 0.12), borderRadius: 2 }} />
+                </div>
               </div>
 
-              <p style={{ color: '#6b7280', fontSize: f(12), lineHeight: 1.55, margin: `0 0 ${f(16)}px` }}>{subheadline}</p>
+              <p style={{ color: '#6b7280', fontSize: f(12), lineHeight: 1.65, margin: 0 }}>{subheadline}</p>
               <div style={ctaStyle(`linear-gradient(135deg, ${pc}, ${dk1})`, tP, pc)}>{cta}</div>
             </div>
           </div>
@@ -501,39 +505,38 @@ function AdCanvas({ variant, data, size: S }: CP) {
           <div style={{ position: 'absolute', top: -f(40), left: '50%', transform: 'translateX(-50%)', width: f(200), height: f(100), background: `radial-gradient(ellipse, ${rgba(sc, 0.15)} 0%, transparent 70%)`, filter: 'blur(30px)' }} />
 
           {/* Badge — prominente */}
-          <div style={{ zIndex: 1, marginBottom: f(6) }}>
+          <div style={{ zIndex: 1, marginBottom: f(10) }}>
             <Badge text="5 min de lectura" bg={rgba(sc, 0.18)} color={sc} border={`1px solid ${rgba(sc, 0.3)}`} fs={f(10)} />
           </div>
 
           {/* Headline */}
           <h2 style={{
             zIndex: 1,
-            fontSize: f(34), fontWeight: 900, lineHeight: 1.0,
-            margin: `0 0 ${f(6)}px`, letterSpacing: '-1.2px',
+            fontSize: f(30), fontWeight: 900, lineHeight: 1.1,
+            margin: `0 0 ${f(8)}px`, letterSpacing: '-1px',
             textShadow: '0 2px 16px rgba(0,0,0,0.3)',
-            maxWidth: '90%',
+            maxWidth: '88%',
           }}>
             <HL text={headline} color={sc} baseColor="#fff" />
           </h2>
 
           {/* Underline */}
-          <div style={{ width: f(40), height: 2.5, background: `linear-gradient(90deg, transparent, ${sc}, transparent)`, borderRadius: 2, marginBottom: f(8), zIndex: 1 }} />
+          <div style={{ width: f(40), height: 2.5, background: `linear-gradient(90deg, transparent, ${sc}, transparent)`, borderRadius: 2, marginBottom: f(6), zIndex: 1 }} />
 
-          <p style={{ zIndex: 1, color: 'rgba(255,255,255,0.55)', fontSize: f(11), lineHeight: 1.5, margin: `0 0 ${f(10)}px`, maxWidth: '85%' }}>{subheadline}</p>
+          <p style={{ zIndex: 1, color: 'rgba(255,255,255,0.55)', fontSize: f(11), lineHeight: 1.55, margin: `0 0 ${f(8)}px`, maxWidth: '82%' }}>{subheadline}</p>
 
           {/* Mockup — centered, prominent */}
           <div style={{
             zIndex: 1, position: 'relative',
-            margin: `${f(4)}px 0`,
+            margin: `${f(6)}px 0`,
             filter: `drop-shadow(0 8px 16px rgba(0,0,0,0.4)) drop-shadow(0 20px 40px rgba(0,0,0,0.2))`,
           }}>
-            {/* Glow under */}
             <div style={{ position: 'absolute', bottom: -f(8), left: '50%', transform: 'translateX(-50%)', width: f(80), height: f(16), background: `radial-gradient(ellipse, ${rgba(pc, 0.35)} 0%, transparent 70%)`, filter: 'blur(12px)' }} />
             <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.05)} id="v5" title={headline} />
           </div>
 
           {/* Social proof micro-stats */}
-          <div style={{ zIndex: 1, display: 'flex', gap: f(16), margin: `${f(6)}px 0 ${f(8)}px` }}>
+          <div style={{ zIndex: 1, display: 'flex', gap: f(16), margin: `${f(4)}px 0 ${f(6)}px` }}>
             {['+2,500 descargas', '4.9 ★ rating'].map((t, i) => (
               <span key={i} style={{ color: rgba('#fff', 0.4), fontSize: f(9), fontWeight: 600, letterSpacing: '0.03em' }}>{t}</span>
             ))}
@@ -570,18 +573,20 @@ function AdCanvas({ variant, data, size: S }: CP) {
             position: 'relative', zIndex: 1, height: '100%',
             display: 'flex', flexDirection: 'column', justifyContent: 'center',
             padding: `${f(32)}px ${f(24)}px`,
-            maxWidth: '56%',
+            maxWidth: '55%', gap: f(14),
           }}>
             <Badge text="Nuevo" bg={rgba(sc, 0.15)} color={sc} border={`1px solid ${rgba(sc, 0.25)}`} fs={f(9)} />
-            <h2 style={{
-              fontSize: f(42), fontWeight: 900, lineHeight: 0.95,
-              margin: `${f(14)}px 0 ${f(10)}px`, letterSpacing: '-1.5px',
-              textShadow: '0 2px 20px rgba(0,0,0,0.4)',
-            }}>
-              <HL text={headline} color={sc} baseColor="#fff" />
-            </h2>
-            <div style={{ width: f(44), height: 3, background: `linear-gradient(90deg, ${sc}, ${pc})`, borderRadius: 2, marginBottom: f(10), boxShadow: `0 0 10px ${rgba(sc, 0.3)}` }} />
-            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: f(12), lineHeight: 1.55, margin: `0 0 ${f(16)}px` }}>{subheadline}</p>
+            <div>
+              <h2 style={{
+                fontSize: f(38), fontWeight: 900, lineHeight: 1.08,
+                margin: `0 0 ${f(10)}px`, letterSpacing: '-1.3px',
+                textShadow: '0 2px 20px rgba(0,0,0,0.4)',
+              }}>
+                <HL text={headline} color={sc} baseColor="#fff" />
+              </h2>
+              <div style={{ width: f(44), height: 3, background: `linear-gradient(90deg, ${sc}, ${pc})`, borderRadius: 2, boxShadow: `0 0 10px ${rgba(sc, 0.3)}` }} />
+            </div>
+            <p style={{ color: 'rgba(255,255,255,0.55)', fontSize: f(12), lineHeight: 1.65, margin: 0 }}>{subheadline}</p>
             <div style={ctaStyle(`linear-gradient(135deg, ${sc}, ${mix(sc, pc, 0.5)}, ${darken(sc, 30)})`, tS, sc)}>{cta}</div>
           </div>
 
