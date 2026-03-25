@@ -29,9 +29,27 @@ function mix(a: string, b: string, t: number) { const x=hexRgb(a),y=hexRgb(b),c=
 // EBOOK MOCKUP — portada, lomo 3D, páginas apiladas, sombra profunda
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function Ebook({ pc, sc, w = 100, id = 'e' }: { pc: string; sc: string; w?: number; id?: string }) {
+function Ebook({ pc, sc, w = 100, id = 'e', title = '', brand = '' }: { pc: string; sc: string; w?: number; id?: string; title?: string; brand?: string }) {
   const h = Math.round(w * 1.38)
   const cw = w - 12, ch = h - 14, sp = Math.round(w * 0.11)
+  const tOnPc = isLight(pc) ? '#0e0e0e' : '#ffffff'
+  const cx = sp + 7, cxW = cw - sp - 16
+  const tFs = Math.max(5, Math.round(w * 0.072))
+  const labFs = Math.max(3.5, Math.round(w * 0.04))
+  const brFs = Math.max(3.5, Math.round(w * 0.042))
+  const maxCh = Math.max(8, Math.round(cxW / (tFs * 0.52)))
+  const displayTitle = title || 'Guía Profesional'
+  const displayBrand = brand || 'Tu Marca'
+  // Word-wrap title into up to 3 lines
+  const lines: string[] = []
+  let cur = ''
+  for (const word of displayTitle.split(' ')) {
+    if (cur && (cur + ' ' + word).length > maxCh) { lines.push(cur); cur = word }
+    else { cur = cur ? cur + ' ' + word : word }
+  }
+  if (cur) lines.push(cur)
+  const titleLines = lines.slice(0, 3)
+
   return (
     <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} fill="none">
       <defs>
@@ -48,37 +66,78 @@ function Ebook({ pc, sc, w = 100, id = 'e' }: { pc: string; sc: string; w?: numb
           <stop offset="0%" stopColor="rgba(0,0,0,0.45)" />
           <stop offset="100%" stopColor="rgba(0,0,0,0.05)" />
         </linearGradient>
+        <clipPath id={`${id}c`}><rect x="0" y="0" width={cw} height={ch} rx="5" /></clipPath>
       </defs>
+
       {/* Shadow */}
       <rect x="12" y="14" width={cw} height={ch} rx="5" fill={`url(#${id}w)`} />
       <rect x="9" y="11" width={cw} height={ch} rx="5" fill="rgba(0,0,0,0.12)" />
-      {/* Pages */}
+
+      {/* Pages stack */}
       {[6,4,2].map((d,i) => (
         <g key={i}>
-          <rect x={d+1} y={d+1} width={cw} height={ch} rx="4" fill={i===0?'#ddd':i===1?'#e8e8e8':'#f2f2f2'} />
+          <rect x={d+1} y={d+1} width={cw} height={ch} rx="4" fill={['#ddd','#e8e8e8','#f2f2f2'][i]} />
           <line x1={cw+d} y1={d+6} x2={cw+d} y2={ch+d-4} stroke={`rgba(0,0,0,${0.08-i*0.02})`} strokeWidth="0.5" />
         </g>
       ))}
+
       {/* Cover */}
       <rect x="0" y="0" width={cw} height={ch} rx="5" fill="white" />
       <rect x="0" y="0" width={cw} height={ch} rx="5" fill="none" stroke="rgba(0,0,0,0.06)" strokeWidth="0.7" />
+
       {/* Spine */}
       <rect x="0" y="0" width={sp} height={ch} rx="5" fill={`url(#${id}s)`} />
       <rect x="1" y="0" width={Math.max(1,Math.round(sp*0.35))} height={ch} rx="5" fill="rgba(255,255,255,0.18)" />
       <line x1={sp} y1="5" x2={sp} y2={ch-5} stroke="rgba(0,0,0,0.08)" strokeWidth="0.5" />
-      {/* Header */}
-      <rect x={sp+4} y={Math.round(ch*0.06)} width={cw-sp-12} height={Math.round(ch*0.3)} rx="4" fill={`url(#${id}h)`} />
-      <rect x={sp+4} y={Math.round(ch*0.06)} width={cw-sp-12} height={Math.round(ch*0.08)} rx="4" fill="rgba(255,255,255,0.2)" />
-      {/* Title bars */}
-      <rect x={sp+8} y={Math.round(ch*0.43)} width={cw-sp-22} height={Math.round(ch*0.05)} rx="2.5" fill="#111" opacity="0.85" />
-      <rect x={sp+8} y={Math.round(ch*0.50)} width={cw-sp-30} height={Math.round(ch*0.038)} rx="2" fill="#111" opacity="0.4" />
-      <rect x={sp+8} y={Math.round(ch*0.56)} width={cw-sp-40} height={Math.round(ch*0.028)} rx="1.5" fill="#111" opacity="0.2" />
-      {/* Graphic */}
-      <circle cx={Math.round(cw*0.55)} cy={Math.round(ch*0.74)} r={Math.round(w*0.16)} fill={pc} opacity="0.08" />
-      <circle cx={Math.round(cw*0.55)} cy={Math.round(ch*0.74)} r={Math.round(w*0.09)} fill={pc} opacity="0.16" />
-      <circle cx={Math.round(cw*0.55)} cy={Math.round(ch*0.74)} r={Math.round(w*0.04)} fill={sc} opacity="0.9" />
-      {/* Bottom */}
-      <rect x={sp+8} y={ch-18} width={Math.round(cw*0.35)} height="2.5" rx="1.5" fill="#bbb" />
+
+      {/* Cover content (clipped) */}
+      <g clipPath={`url(#${id}c)`}>
+        {/* Header color band */}
+        <rect x={sp} y="0" width={cw-sp} height={Math.round(ch*0.36)} fill={`url(#${id}h)`} />
+        <rect x={sp} y="0" width={cw-sp} height={Math.round(ch*0.09)} fill="rgba(255,255,255,0.15)" />
+        {/* Decorative circle in header */}
+        <circle cx={cw-Math.round(w*0.14)} cy={Math.round(ch*0.2)} r={Math.round(w*0.16)} fill="rgba(255,255,255,0.06)" />
+
+        {/* "GUÍA GRATUITA" label */}
+        <text x={cx} y={Math.round(ch*0.08)+labFs} fontFamily="Inter,system-ui,sans-serif" fontWeight="700"
+          fontSize={labFs} fill={tOnPc} opacity="0.55" letterSpacing="0.12em">GUÍA GRATUITA</text>
+        {/* Divider under label */}
+        <line x1={cx} y1={Math.round(ch*0.08)+labFs+Math.round(labFs*0.8)}
+          x2={cx+Math.round(cxW*0.32)} y2={Math.round(ch*0.08)+labFs+Math.round(labFs*0.8)}
+          stroke={tOnPc} strokeWidth="0.5" opacity="0.2" />
+
+        {/* Dynamic title text */}
+        <text x={cx} y={Math.round(ch*0.19)+tFs} fontFamily="Inter,system-ui,sans-serif" fontWeight="900"
+          fontSize={tFs} fill={tOnPc} letterSpacing="-0.02em">
+          {titleLines.map((ln,i) => (
+            <tspan key={i} x={cx} dy={i===0?0:tFs*1.18}>{ln}</tspan>
+          ))}
+        </text>
+
+        {/* Accent bar under title */}
+        <rect x={cx} y={Math.round(ch*0.42)} width={Math.round(cxW*0.28)} height={Math.max(1.5,Math.round(w*0.018))} rx="1" fill={sc} />
+
+        {/* Description placeholder lines */}
+        <rect x={cx} y={Math.round(ch*0.47)} width={Math.round(cxW*0.85)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.3" />
+        <rect x={cx} y={Math.round(ch*0.47)+Math.round(w*0.035)} width={Math.round(cxW*0.6)} height={Math.round(w*0.018)} rx="1" fill="#888" opacity="0.2" />
+
+        {/* Abstract graphic */}
+        <circle cx={Math.round(cw*0.52)} cy={Math.round(ch*0.68)} r={Math.round(w*0.13)} fill={pc} opacity="0.06" />
+        <circle cx={Math.round(cw*0.52)} cy={Math.round(ch*0.68)} r={Math.round(w*0.07)} fill={pc} opacity="0.1" />
+        <circle cx={Math.round(cw*0.52)} cy={Math.round(ch*0.68)} r={Math.round(w*0.03)} fill={sc} opacity="0.8" />
+        <line x1={cx} y1={Math.round(ch*0.68)} x2={cw-8} y2={Math.round(ch*0.68)} stroke={pc} strokeWidth="0.3" opacity="0.07" />
+
+        {/* Bottom divider */}
+        <line x1={cx} y1={ch-Math.round(w*0.19)} x2={cw-8} y2={ch-Math.round(w*0.19)} stroke="#ddd" strokeWidth="0.5" />
+
+        {/* Brand name */}
+        <text x={cx} y={ch-Math.round(w*0.08)} fontFamily="Inter,system-ui,sans-serif" fontWeight="700"
+          fontSize={brFs} fill="#444" opacity="0.65" letterSpacing="0.05em">
+          {displayBrand.toUpperCase()}
+        </text>
+        {/* Brand accent dot */}
+        <circle cx={cx+displayBrand.length*brFs*0.58+brFs*0.7} cy={ch-Math.round(w*0.08)-brFs*0.28} r={Math.round(brFs*0.28)} fill={pc} opacity="0.55" />
+      </g>
     </svg>
   )
 }
@@ -206,7 +265,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
             filter: `drop-shadow(-8px 12px 24px rgba(0,0,0,0.5)) drop-shadow(-4px 24px 48px rgba(0,0,0,0.25))`,
             zIndex: 2,
           }}>
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.3)} id="v1" />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.3)} id="v1" title={headline} />
           </div>
 
           {/* Corner accents */}
@@ -263,7 +322,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
           }}>
             <div style={{ position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)', width: f(100), height: f(30), background: `radial-gradient(ellipse, ${rgba(pc, 0.4)} 0%, transparent 70%)`, filter: 'blur(16px)' }} />
             <div style={{ filter: `drop-shadow(0 8px 20px rgba(0,0,0,0.5)) drop-shadow(0 20px 40px ${rgba(pc, 0.2)})` }}>
-              <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.2)} id="v2" />
+              <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.2)} id="v2" title={headline} />
             </div>
           </div>
 
@@ -326,7 +385,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
             filter: `drop-shadow(-6px 10px 20px rgba(0,0,0,0.4)) drop-shadow(-3px 20px 40px rgba(0,0,0,0.2))`,
             zIndex: 3,
           }}>
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.15)} id="v3" />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.15)} id="v3" title={headline} />
           </div>
 
           {/* Geometric — bottom right */}
@@ -418,7 +477,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
             filter: `drop-shadow(-4px 6px 16px rgba(0,0,0,0.15)) drop-shadow(-2px 14px 28px rgba(0,0,0,0.1))`,
             zIndex: 1,
           }}>
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.1)} id="v4" />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.1)} id="v4" title={headline} />
           </div>
         </div>
       )
@@ -470,7 +529,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
           }}>
             {/* Glow under */}
             <div style={{ position: 'absolute', bottom: -f(8), left: '50%', transform: 'translateX(-50%)', width: f(80), height: f(16), background: `radial-gradient(ellipse, ${rgba(pc, 0.35)} 0%, transparent 70%)`, filter: 'blur(12px)' }} />
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.05)} id="v5" />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.05)} id="v5" title={headline} />
           </div>
 
           {/* Social proof micro-stats */}
@@ -537,7 +596,7 @@ function AdCanvas({ variant, data, size: S }: CP) {
           }}>
             {/* Reflected glow */}
             <div style={{ position: 'absolute', bottom: -f(12), left: '50%', transform: 'translateX(-50%)', width: f(90), height: f(20), background: `radial-gradient(ellipse, ${rgba(sc, 0.25)} 0%, transparent 70%)`, filter: 'blur(14px)' }} />
-            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.35)} id="v6" />
+            <Ebook pc={pc} sc={sc} w={Math.round(ew * 1.35)} id="v6" title={headline} />
           </div>
         </div>
       )
