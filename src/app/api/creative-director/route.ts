@@ -8,33 +8,33 @@ const SYSTEM_PROMPT = `Eres un director creativo especialista en performance mar
 const LAYOUTS = [
   {
     id: 1,
-    nombre: 'Centrado clásico',
-    descripcion: 'Fondo de color primario, todo el copy centrado verticalmente. Elimina distracciones y fuerza la atención al mensaje único.',
+    nombre: 'Hero Asimétrico',
+    descripcion: 'Fondo oscuro con gradiente del color primario. Composición asimétrica: texto alineado a la izquierda con headline gigante con palabras clave en color de acento, mockup de ebook flotando a la derecha rompiendo el borde. Badge de social proof. Máxima tensión visual.',
   },
   {
     id: 2,
-    nombre: 'Dividido',
-    descripcion: 'Mitad izquierda color primario con headline, mitad derecha blanca con subtítulo y CTA. Contraste visual que crea tensión narrativa.',
+    nombre: 'Full Dark',
+    descripcion: 'Fondo casi negro derivado del color primario. Headline gigante con highlight de color sobre fondo oscuro. Mockup del ebook con efecto glow flotando. Estética premium y exclusiva. Grid sutil de fondo.',
   },
   {
     id: 3,
-    nombre: 'Bold Hero',
-    descripcion: 'Fondo blanco, headline enorme dominando 60% del espacio. Jerarquía tipográfica pura, texto como elemento visual.',
+    nombre: 'Split Diagonal',
+    descripcion: 'División diagonal: zona superior oscura con headline, zona inferior clara con subheadline y CTA. Mockup del ebook en la intersección exacta de la diagonal, bridging ambas zonas. Triángulo de color secundario como acento.',
   },
   {
     id: 4,
-    nombre: 'Marco',
-    descripcion: 'Marco decorativo sobre fondo suave. Genera sensación de exclusividad y credibilidad institucional.',
+    nombre: 'Minimal Bold',
+    descripcion: 'Fondo blanco/claro. Tipografía negra dominante enorme (52px). Acentos de color mínimos: barra lateral, líneas progresivas, primera letra gigante de fondo. Mockup pequeño rotado en esquina. Máxima legibilidad y contraste.',
   },
   {
     id: 5,
-    nombre: 'Top-Bottom',
-    descripcion: 'Bloque superior de color con headline impactante, zona inferior blanca para copy y CTA. Lectura en F natural para feed.',
+    nombre: 'Social Proof',
+    descripcion: 'Fondo oscuro con gradiente. Badge prominente arriba con social proof. Mockup centrado con glow. Micro-estadísticas (descargas, rating). CTA abajo. Todo centrado verticalmente. Genera confianza y urgencia.',
   },
   {
     id: 6,
-    nombre: 'Diagonal',
-    descripcion: 'Bloque diagonal de color con el headline, copy sobre fondo limpio. Movimiento visual que interrumpe el scroll.',
+    nombre: 'Cinematic',
+    descripcion: 'Fondo con gradiente de 3 colores (oscuro primario → mix → oscuro secundario). Barras cinematográficas top/bottom. Flare anamórfico horizontal. Mockup con perspectiva 3D CSS rompiendo el borde. Estética de trailer/película.',
   },
 ]
 
@@ -104,12 +104,12 @@ FORMATO JSON ESPERADO:
   "subheadline": "...",
   "cta": "...",
   "variaciones": [
-    { "id": 1, "nombre": "Centrado clásico", "razonamiento": "..." },
-    { "id": 2, "nombre": "Dividido", "razonamiento": "..." },
-    { "id": 3, "nombre": "Bold Hero", "razonamiento": "..." },
-    { "id": 4, "nombre": "Marco", "razonamiento": "..." },
-    { "id": 5, "nombre": "Top-Bottom", "razonamiento": "..." },
-    { "id": 6, "nombre": "Diagonal", "razonamiento": "..." }
+    { "id": 1, "nombre": "Hero Asimétrico", "razonamiento": "..." },
+    { "id": 2, "nombre": "Full Dark", "razonamiento": "..." },
+    { "id": 3, "nombre": "Split Diagonal", "razonamiento": "..." },
+    { "id": 4, "nombre": "Minimal Bold", "razonamiento": "..." },
+    { "id": 5, "nombre": "Social Proof", "razonamiento": "..." },
+    { "id": 6, "nombre": "Cinematic", "razonamiento": "..." }
   ]
 }`
 
