@@ -5,36 +5,36 @@ const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
 const SYSTEM_PROMPT = `Eres un director creativo especialista en performance marketing digital. Tu único objetivo es maximizar conversiones para descargas de lead magnets. Cada decisión de copy, jerarquía visual y layout debe estar optimizada para que el usuario haga clic y descargue. Piensas como un experto en psicología del consumidor y comportamiento digital. Nunca priorizas estética sobre conversión.`
 
-const LAYOUTS = [
+const TEXT_VARIATIONS = [
   {
     id: 1,
-    nombre: 'Hero Asimétrico',
-    descripcion: 'Fondo oscuro con gradiente del color primario. Composición asimétrica: texto alineado a la izquierda con headline gigante con palabras clave en color de acento, mockup de ebook flotando a la derecha rompiendo el borde. Badge de social proof. Máxima tensión visual.',
+    nombre: 'Impacto',
+    descripcion: 'Headline corto de 2-3 palabras de máximo impacto. Directo, potente, memorable. Sin verbos débiles.',
   },
   {
     id: 2,
-    nombre: 'Full Dark',
-    descripcion: 'Fondo casi negro derivado del color primario. Headline gigante con highlight de color sobre fondo oscuro. Mockup del ebook con efecto glow flotando. Estética premium y exclusiva. Grid sutil de fondo.',
+    nombre: 'Pregunta',
+    descripcion: 'Headline formulado como pregunta que ataca el pain point principal de la audiencia. Debe generar incomodidad y curiosidad.',
   },
   {
     id: 3,
-    nombre: 'Split Diagonal',
-    descripcion: 'División diagonal: zona superior oscura con headline, zona inferior clara con subheadline y CTA. Mockup del ebook en la intersección exacta de la diagonal, bridging ambas zonas. Triángulo de color secundario como acento.',
+    nombre: 'Número',
+    descripcion: 'Headline con número específico: "5 pasos", "10 minutos", "3 errores". Los números generan credibilidad y expectativa concreta.',
   },
   {
     id: 4,
-    nombre: 'Minimal Bold',
-    descripcion: 'Fondo blanco/claro. Tipografía negra dominante enorme (52px). Acentos de color mínimos: barra lateral, líneas progresivas, primera letra gigante de fondo. Mockup pequeño rotado en esquina. Máxima legibilidad y contraste.',
+    nombre: 'Beneficio',
+    descripcion: 'Headline enfocado 100% en el resultado/transformación que obtendrá el usuario. No mencionar el producto, solo el beneficio.',
   },
   {
     id: 5,
-    nombre: 'Social Proof',
-    descripcion: 'Fondo oscuro con gradiente. Badge prominente arriba con social proof. Mockup centrado con glow. Micro-estadísticas (descargas, rating). CTA abajo. Todo centrado verticalmente. Genera confianza y urgencia.',
+    nombre: 'Urgencia',
+    descripcion: 'Headline con escasez o tiempo limitado. "Solo hoy", "Últimas plazas", "Antes de que sea tarde". Genera FOMO.',
   },
   {
     id: 6,
-    nombre: 'Cinematic',
-    descripcion: 'Fondo con gradiente de 3 colores (oscuro primario → mix → oscuro secundario). Barras cinematográficas top/bottom. Flare anamórfico horizontal. Mockup con perspectiva 3D CSS rompiendo el borde. Estética de trailer/película.',
+    nombre: 'Social Proof',
+    descripcion: 'Headline que usa prueba social: "Como X empresas", "+2,500 profesionales ya lo usan", "El método que usan en [industria]".',
   },
 ]
 
@@ -50,13 +50,12 @@ interface RequestBody {
 interface VariationDecision {
   id: number
   nombre: string
+  headline: string
+  subheadline: string
   razonamiento: string
 }
 
 interface CreativeResponse {
-  headline: string
-  subheadline: string
-  cta: string
   variaciones: VariationDecision[]
 }
 
@@ -91,37 +90,27 @@ BRIEF:
 - Color principal del anuncio: ${primaryColor}
 - Color secundario del anuncio: ${secondaryColor}
 
-IMPORTANTE SOBRE EL CTA:
-Adapta el CTA al tipo de lead magnet:
-- Ebook/Guía/White Paper/Checklist → "Descargar gratis", "Obtener guía", etc.
-- Webinar → "Regístrate gratis", "Reserva tu lugar", etc.
-- Template/Plantilla → "Usar plantilla", "Obtener template", etc.
-- Diagnóstico/Reporte → "Ver mi diagnóstico", "Obtener reporte", etc.
-- Video/Mini curso → "Ver ahora", "Acceder al curso", etc.
+NOTA: NO incluyas botón de CTA en el diseño — Meta Ads pone su propio botón automáticamente.
 
-LAYOUTS A EVALUAR:
-${LAYOUTS.map((l) => `${l.id}. ${l.nombre}: ${l.descripcion}`).join('\n')}
+ESTILOS DE HEADLINE A GENERAR:
+${TEXT_VARIATIONS.map((v) => `${v.id}. ${v.nombre}: ${v.descripcion}`).join('\n')}
 
 INSTRUCCIONES:
-1. headline: titular de 5-8 palabras máximo. Debe comunicar el beneficio principal de forma directa e irresistible para la audiencia. Sin signos de interrogación.
-2. subheadline: 1-2 oraciones que refuercen el titular con prueba social, urgencia o especificidad del beneficio. Máximo 20 palabras.
-3. cta: 2-4 palabras orientadas a acción e inmediatez. Ej: "Descargar ahora", "Quiero mi guía".
-4. variaciones: para los 6 layouts, escribe un razonamiento de 2-3 oraciones explicando por qué ese layout específicamente convierte (o qué psicología activa) para este objetivo y audiencia. Sé técnico y concreto.
+Genera 6 variaciones de texto para el MISMO anuncio visual. Cada variación tiene un headline y subheadline diferentes según el estilo indicado.
 
 FORMATO JSON ESPERADO:
 {
-  "headline": "...",
-  "subheadline": "...",
-  "cta": "...",
   "variaciones": [
-    { "id": 1, "nombre": "Hero Asimétrico", "razonamiento": "..." },
-    { "id": 2, "nombre": "Full Dark", "razonamiento": "..." },
-    { "id": 3, "nombre": "Split Diagonal", "razonamiento": "..." },
-    { "id": 4, "nombre": "Minimal Bold", "razonamiento": "..." },
-    { "id": 5, "nombre": "Social Proof", "razonamiento": "..." },
-    { "id": 6, "nombre": "Cinematic", "razonamiento": "..." }
+    { "id": 1, "nombre": "Impacto", "headline": "2-3 palabras de impacto", "subheadline": "frase complementaria corta (max 15 palabras)", "razonamiento": "por qué este estilo de texto convierte para esta audiencia" },
+    { "id": 2, "nombre": "Pregunta", "headline": "¿Pregunta del pain point?", "subheadline": "frase complementaria corta", "razonamiento": "..." },
+    { "id": 3, "nombre": "Número", "headline": "X pasos/minutos/errores...", "subheadline": "frase complementaria corta", "razonamiento": "..." },
+    { "id": 4, "nombre": "Beneficio", "headline": "resultado transformador", "subheadline": "frase complementaria corta", "razonamiento": "..." },
+    { "id": 5, "nombre": "Urgencia", "headline": "escasez o tiempo limitado", "subheadline": "frase complementaria corta", "razonamiento": "..." },
+    { "id": 6, "nombre": "Social Proof", "headline": "prueba social específica", "subheadline": "frase complementaria corta", "razonamiento": "..." }
   ]
-}`
+}
+
+IMPORTANTE: Cada variación DEBE tener su propio headline y subheadline únicos. No repitas el mismo texto.`
 
   try {
     const response = await client.messages.create({
@@ -149,7 +138,7 @@ FORMATO JSON ESPERADO:
     const parsed = JSON.parse(jsonMatch[0]) as CreativeResponse
 
     // Basic validation
-    if (!parsed.headline || !parsed.subheadline || !parsed.cta || !Array.isArray(parsed.variaciones)) {
+    if (!Array.isArray(parsed.variaciones) || parsed.variaciones.length === 0) {
       return Response.json(
         { success: false, error: 'La respuesta de Claude no tiene la estructura esperada.' },
         { status: 500 }

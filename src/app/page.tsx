@@ -16,6 +16,8 @@ export interface AdData {
 interface VariationDecision {
   id: number
   nombre: string
+  headline: string
+  subheadline: string
   razonamiento: string
 }
 
@@ -59,13 +61,13 @@ export default function Home() {
         return
       }
 
-      const { headline, subheadline, cta, variaciones } = json.data
+      const { variaciones } = json.data
 
       setGenerated({
         adData: {
-          headline,
-          subheadline,
-          cta,
+          headline: variaciones[0]?.headline || '',
+          subheadline: variaciones[0]?.subheadline || '',
+          cta: '',
           primaryColor: formInput.primaryColor,
           secondaryColor: formInput.secondaryColor,
           leadMagnetType: formInput.leadMagnetType,
@@ -172,29 +174,30 @@ export default function Home() {
           {/* Generated results */}
           {generated && !loading && (
             <>
-              {/* Copy generado */}
-              <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '16px 20px', marginBottom: 24, display: 'flex', gap: 24, flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z" />
-                  </svg>
-                  <span style={{ fontSize: 12, fontWeight: 700, color: '#6366f1', textTransform: 'uppercase', letterSpacing: '0.04em' }}>Copy generado por Claude</span>
-                </div>
-                <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', flex: 1 }}>
-                  <span style={{ fontSize: 13, color: '#374151' }}><strong style={{ color: '#111827' }}>Headline:</strong> {generated.adData.headline}</span>
-                  <span style={{ fontSize: 13, color: '#374151' }}><strong style={{ color: '#111827' }}>CTA:</strong> {generated.adData.cta}</span>
-                </div>
+              {/* Info banner */}
+              <div style={{ background: '#fff', border: '1px solid #e5e7eb', borderRadius: 12, padding: '14px 20px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 10 }}>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6366f1" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M12 3l1.5 4.5L18 9l-4.5 1.5L12 15l-1.5-4.5L6 9l4.5-1.5z" />
+                </svg>
+                <span style={{ fontSize: 13, color: '#374151' }}>
+                  <strong style={{ color: '#6366f1' }}>6 variaciones de texto</strong> generadas por Claude — mismo layout, diferente ángulo de copy
+                </span>
               </div>
 
               {/* Grid de variaciones */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
                 {VARIANTS.map((v) => {
                   const decision = generated.variaciones.find((d) => d.id === v)
+                  const adDataForVariation: AdData = {
+                    ...generated.adData,
+                    headline: decision?.headline || generated.adData.headline,
+                    subheadline: decision?.subheadline || generated.adData.subheadline,
+                  }
                   return (
                     <AdVariation
                       key={v}
                       variant={v}
-                      data={generated.adData}
+                      data={adDataForVariation}
                       razonamiento={decision?.razonamiento}
                     />
                   )
